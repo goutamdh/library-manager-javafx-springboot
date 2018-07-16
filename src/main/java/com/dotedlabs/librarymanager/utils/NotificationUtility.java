@@ -85,6 +85,21 @@ public class NotificationUtility {
 
 		alert.showAndWait();
 	}
+	
+	public static void showAbout() {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("About Library Manager");
+		alert.setHeaderText("Library Manager - Beta");
+
+		VBox dialogPaneContent = new VBox();
+		TextArea textArea = new TextArea();
+		Label label = new Label("Product details:");
+		textArea.setText("This is a beta software");
+		dialogPaneContent.getChildren().addAll(label, textArea);
+		// Set content for Dialog Pane
+		alert.getDialogPane().setContent(dialogPaneContent);
+		alert.showAndWait();
+	}
 
 	private static String getStackTrace(Exception e) {
 		StringWriter sw = new StringWriter();

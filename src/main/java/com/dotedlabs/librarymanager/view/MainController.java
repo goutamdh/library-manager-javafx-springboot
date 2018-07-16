@@ -166,4 +166,9 @@ public class MainController implements Initializable {
 	void quit(ActionEvent event) {
 		stageManager.close(rootPane.getScene());
 	}
+
+	@FXML
+	void showAbout(ActionEvent event) {
+		NotificationUtility.showAbout();
+	}
 }
