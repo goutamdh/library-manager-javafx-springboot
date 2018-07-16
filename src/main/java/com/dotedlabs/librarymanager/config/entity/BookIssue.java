@@ -2,13 +2,13 @@ package com.dotedlabs.librarymanager.config.entity;
 
 import java.util.UUID;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -22,23 +22,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "members")
-public class Member {
+@Table(name = "book_issues")
+public class BookIssue {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="id")
 	protected UUID id;
 	
-	@Column(name = "name")
-	private String name;
+	@OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "book_id")
+	private Book book;
 	
-	@Column(name = "contact")
-	private String contact;
-	
-	@Column(name = "email")
-	private String email;
-	
-	@OneToOne(mappedBy = "member", cascade = CascadeType.ALL, 
-            fetch = FetchType.LAZY, optional = false)
-	private BookIssue bookIssue;
+	@OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+	private Member member;
 }
