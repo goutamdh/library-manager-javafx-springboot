@@ -43,10 +43,7 @@ public class LoginController {
 	public void onSignup() {
 		initialize();
 		System.out.println("Clicked on signup " + usernameField.getText());
-		// showAlertWithHeaderText();
 		this.stageManager.switchScene(FxmlView.MAIN);
-		// NotificationUtility.info("Connect to the database successfully!", null);
-		// NotificationUtility.doSomething();
 	}
 
 }

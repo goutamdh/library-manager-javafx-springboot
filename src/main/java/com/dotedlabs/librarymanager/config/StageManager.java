@@ -5,6 +5,7 @@ import java.util.Objects;
 import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -12,6 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class StageManager {
+	/* Icon location */
+	private static final String ICON_PATH = "/icons/library.png";
 	private final Stage primaryStage;
 	private final SpringFXMLLoader springFXMLLoader;
 
@@ -48,6 +51,25 @@ public class StageManager {
 	public void close(Scene scene) {
 		scene.getWindow().hide();
 	}
+	
+	/**
+	 * Set stage in full screen view
+	 * 
+	 * @param isFullScreen
+	 */
+	public void setFullScreen(boolean isFullScreen) {
+		this.primaryStage.setFullScreen(isFullScreen);
+		
+	}
+	
+	/**
+	 * Set stage as maximized
+	 * 
+	 * @param isMaximized
+	 */
+	public void setMaximized(boolean isMaximized) {
+		this.primaryStage.setMaximized(isMaximized);
+	}
 
 	private void show(final Parent rootnode, String title) {
 		log.info("Starting application");
@@ -56,6 +78,7 @@ public class StageManager {
 		primaryStage.setScene(scene);
 		primaryStage.sizeToScene();
 		primaryStage.centerOnScreen();
+		setStageIcon(primaryStage);
 
 		try {
 			primaryStage.show();
@@ -78,6 +101,7 @@ public class StageManager {
 		stage.setScene(new Scene(parent));
 		stage.sizeToScene();
 		stage.centerOnScreen();
+		setStageIcon(stage);
 		stage.show();
 		log.info("Stacked scene launched");
 	}
@@ -107,6 +131,15 @@ public class StageManager {
 		}
 		return rootNode;
 	}
+	
+	/**
+	 * Function to set icon to the stage
+	 * 
+	 * @param stage
+	 */
+	private void setStageIcon(Stage stage) {
+		stage.getIcons().add(new Image(ICON_PATH));
+	}
 
 	/**
 	 * Function to handle error logs
@@ -118,4 +151,5 @@ public class StageManager {
 		log.error(errorMsg, exception, exception.getCause());
 		Platform.exit();
 	}
+	
 }

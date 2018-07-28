@@ -7,6 +7,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
@@ -29,11 +30,21 @@
                     <MenuItem mnemonicParsing="false" onAction="#quit" text="Close" />
                   </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Edit">
+                <Menu mnemonicParsing="false" text="Add">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="Delete" />
+                    <MenuItem mnemonicParsing="false" onAction="#loadAddMember" text="Add Member" />
+                        <MenuItem mnemonicParsing="false" onAction="#loadAddBook" text="Add book" />
                   </items>
                 </Menu>
+                  <Menu mnemonicParsing="false" text="View">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#loadMemberTable" text="List Members" />
+                        <MenuItem mnemonicParsing="false" onAction="#loadBookTable" text="List books" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleMaximize" text="Maximize screen" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleFullscreen" text="Full screen" />
+                     </items>
+                  </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                   <items>
                     <MenuItem mnemonicParsing="false" onAction="#showAbout" text="About" />
