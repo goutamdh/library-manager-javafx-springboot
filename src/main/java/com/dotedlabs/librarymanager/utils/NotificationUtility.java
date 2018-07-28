@@ -89,7 +89,7 @@ public class NotificationUtility {
 
 		alert.showAndWait();
 	}
-	
+
 	public static void showAbout() {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("About Library Manager");
@@ -104,7 +104,7 @@ public class NotificationUtility {
 		alert.getDialogPane().setContent(dialogPaneContent);
 		alert.showAndWait();
 	}
-	
+
 	/**
 	 * Function to show confirmation dialog
 	 * 
@@ -118,6 +118,16 @@ public class NotificationUtility {
 		alert.setHeaderText(message);
 		Optional<ButtonType> answer = alert.showAndWait();
 		return answer.get() == ButtonType.OK ? true : false;
+	}
+
+	/**
+	 * Show coming soon message
+	 */
+	public static void comingSoon() {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Coming soon");
+		message("You have tried to access a feature that is currently not implemented. Please check back again later",
+				"Feature not yet implemented", alert);
 	}
 
 	private static String getStackTrace(Exception e) {

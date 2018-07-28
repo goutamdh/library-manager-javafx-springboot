@@ -173,12 +173,17 @@ public class MainController implements Initializable {
 	}
 
 	@FXML
-    void handleMaximize(ActionEvent event) {
-		stageManager.setMaximized(true);
-    }
-	
+	void showSettings(ActionEvent event) {
+		NotificationUtility.comingSoon();
+	}
+
 	@FXML
-    void handleFullscreen(ActionEvent event) {
+	void handleMaximize(ActionEvent event) {
+		stageManager.setMaximized(true);
+	}
+
+	@FXML
+	void handleFullscreen(ActionEvent event) {
 		stageManager.setFullScreen(true);
-    }
+	}
 }
