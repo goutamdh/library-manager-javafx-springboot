@@ -11,7 +11,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 
 /**
  * @author sandeepknair
@@ -28,12 +27,12 @@ public class SpringFXMLLoader {
 		this.context = context;
 	}
 
-	public Parent load(String fxmlPath) throws IOException {
-		FXMLLoader loader = new FXMLLoader();
+	public FXMLLoader load(String fxmlPath) throws IOException {
+		FXMLLoader fxmlLoader = new FXMLLoader();
 		// Spring now FXML Controller Factory
-		loader.setControllerFactory(context::getBean);
-		loader.setResources(resourceBundle);
-		loader.setLocation(getClass().getResource(fxmlPath));
-		return loader.load();
+		fxmlLoader.setControllerFactory(context::getBean);
+		fxmlLoader.setResources(resourceBundle);
+		fxmlLoader.setLocation(getClass().getResource(fxmlPath));
+		return fxmlLoader;
 	}
 }

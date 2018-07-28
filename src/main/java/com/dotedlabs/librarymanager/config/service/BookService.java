@@ -44,6 +44,15 @@ public class BookService {
 	}
 	
 	/**
+	 * Update a book
+	 * 
+	 * @param book
+	 */
+	public void update(Book book) {
+		bookRepository.save(book);
+	}
+	
+	/**
 	 * Remove a book
 	 * 
 	 * @param bookId

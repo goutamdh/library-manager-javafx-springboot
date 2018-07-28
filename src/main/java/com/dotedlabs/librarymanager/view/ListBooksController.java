@@ -1,15 +1,21 @@
 package com.dotedlabs.librarymanager.view;
 
 import java.net.URL;
+import java.util.ListIterator;
 import java.util.ResourceBundle;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
+import com.dotedlabs.librarymanager.config.FxmlView;
 import com.dotedlabs.librarymanager.config.StageManager;
 import com.dotedlabs.librarymanager.config.entity.Book;
 import com.dotedlabs.librarymanager.config.service.BookService;
+import com.dotedlabs.librarymanager.events.EditBookEvent;
+import com.dotedlabs.librarymanager.events.RefreshedBookEvent;
 import com.dotedlabs.librarymanager.utils.NotificationUtility;
 
 import javafx.collections.FXCollections;
@@ -27,6 +33,10 @@ public class ListBooksController implements Initializable {
 	@Lazy
 	@Autowired
 	private StageManager stageManager;
+
+	@Lazy
+	@Autowired
+	ApplicationEventPublisher eventPublisher;
 
 	@Lazy
 	@Autowired
@@ -78,6 +88,17 @@ public class ListBooksController implements Initializable {
 	}
 
 	@FXML
+	void handleEdit(ActionEvent event) {
+		Book selectedBook = tableList.getSelectionModel().getSelectedItem();
+		if (null == selectedBook) {
+			NotificationUtility.error("No book selected", "Error in edit");
+		} else {
+			stageManager.openStackedScene(FxmlView.EDIT_BOOK);
+			eventPublisher.publishEvent(new EditBookEvent(selectedBook));
+		}
+	}
+
+	@FXML
 	void handleDelete(ActionEvent event) {
 		Book selectedBook = tableList.getSelectionModel().getSelectedItem();
 		int selectedIndex = tableList.getSelectionModel().getSelectedIndex();
@@ -91,7 +112,21 @@ public class ListBooksController implements Initializable {
 				bookService.delete(selectedBook.getId());
 			}
 		}
-
 	}
 
+	/**
+	 * Function to handle after update process of updating the table
+	 * 
+	 * @param refreshedBookEvent
+	 */
+	@EventListener
+	public void handleUpdate(RefreshedBookEvent refreshedBookEvent) {
+		for (ListIterator<Book> iterator = bookList.listIterator(); iterator.hasNext();) {
+			Book book = iterator.next();
+			if (book.getId() == refreshedBookEvent.getBook().getId()) {
+				bookList.set(iterator.previousIndex(), refreshedBookEvent.getBook());
+				break;
+			}
+		}
+	}
 }

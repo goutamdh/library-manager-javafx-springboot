@@ -43,6 +43,17 @@ public enum FxmlView {
 			return "/fxml/AddBook.fxml";
 		}
 	},
+	EDIT_BOOK {
+		@Override
+		String getTitle() {
+			return CommonUtility.getTextFromBundle("app.ui.edit-book.title");
+		}
+
+		@Override
+		String getFxmlFile() {
+			return "/fxml/AddBook.fxml";
+		}
+	},
 	BOOK_LIST {
 		@Override
 		String getTitle() {

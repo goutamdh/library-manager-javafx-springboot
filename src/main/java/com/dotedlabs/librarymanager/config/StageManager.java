@@ -3,6 +3,7 @@ package com.dotedlabs.librarymanager.config;
 import java.util.Objects;
 
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -124,7 +125,8 @@ public class StageManager {
 	private Parent loadViewNodeHierarchy(String fxmlFilePath) {
 		Parent rootNode = null;
 		try {
-			rootNode = springFXMLLoader.load(fxmlFilePath);
+			FXMLLoader fxmlLoader = springFXMLLoader.load(fxmlFilePath);
+			rootNode = fxmlLoader.load();
 			Objects.requireNonNull(rootNode, "A Root FXML node must not be null");
 		} catch (Exception exception) {
 			handleException("Unable to load FXML view" + fxmlFilePath, exception);
