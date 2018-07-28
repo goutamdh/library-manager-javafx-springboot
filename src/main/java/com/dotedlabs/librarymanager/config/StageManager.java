@@ -5,6 +5,7 @@ import java.util.Objects;
 import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import lombok.extern.slf4j.Slf4j;
@@ -19,16 +20,31 @@ public class StageManager {
 		this.primaryStage = stage;
 	}
 
+	/**
+	 * Function to switch scenes
+	 * 
+	 * @param view
+	 */
 	public void switchScene(final FxmlView view) {
 		Parent viewRootNodeHierarchy = loadViewNodeHierarchy(view.getFxmlFile());
 		show(viewRootNodeHierarchy, view.getTitle());
 	}
 
+	/**
+	 * Function to open stacked scenes
+	 * 
+	 * @param view
+	 */
 	public void openStackedScene(final FxmlView view) {
 		Parent viewRootNodeHierarchy = loadViewNodeHierarchy(view.getFxmlFile());
 		showStacked(viewRootNodeHierarchy, view.getTitle());
 	}
 	
+	/**
+	 * Close a scene
+	 * 
+	 * @param scene
+	 */
 	public void close(Scene scene) {
 		scene.getWindow().hide();
 	}
@@ -52,6 +68,12 @@ public class StageManager {
 	private void showStacked(final Parent parent, String title) {
 		log.info("Launching stacked scene");
 		Stage stage = new Stage(StageStyle.DECORATED);
+		
+		// Disable selecting parent scene when child is active
+		stage.initModality(Modality.WINDOW_MODAL);
+		// For making parent scene as the owner
+		stage.initOwner(primaryStage.getScene().getWindow());
+		
 		stage.setTitle(title);
 		stage.setScene(new Scene(parent));
 		stage.sizeToScene();
