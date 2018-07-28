@@ -63,10 +63,14 @@ public class AddMemberController implements Initializable {
 					.email(email.getText())
 					.build();
 			// @formatter:on
-			member = memberService.addMember(member);
-			NotificationUtility.info("Saved member " + member.getName(), "Success");
-			// Clear all data
-			initForm();
+			try {
+				member = memberService.addMember(member);				
+				NotificationUtility.info("Saved member " + member.getName(), "Success");
+				// Clear all data
+				initForm();
+			} catch (Exception e) {
+				NotificationUtility.showErrorTrace(e);
+			}
 		}
     }
 

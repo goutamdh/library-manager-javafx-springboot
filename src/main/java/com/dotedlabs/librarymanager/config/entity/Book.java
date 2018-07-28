@@ -44,6 +44,6 @@ public class Book {
 	private Boolean isAvailable = true;
 	
 	@OneToOne(mappedBy = "book", cascade = CascadeType.ALL, 
-            fetch = FetchType.LAZY, optional = false)
+            fetch = FetchType.LAZY)
 	private BookIssue bookIssue;
 }

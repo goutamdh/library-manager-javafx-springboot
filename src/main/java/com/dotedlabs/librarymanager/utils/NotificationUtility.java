@@ -2,10 +2,12 @@ package com.dotedlabs.librarymanager.utils;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Optional;
 
 import org.springframework.util.StringUtils;
 
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -72,10 +74,12 @@ public class NotificationUtility {
 		Alert alert = new Alert(AlertType.ERROR);
 		alert.setTitle("Error trace");
 		alert.setHeaderText(e.getMessage());
+		alert.getDialogPane().setPrefSize(480, 400);
 
 		VBox dialogPaneContent = new VBox();
 		Label label = new Label("Stack Trace:");
 		TextArea textArea = new TextArea();
+		textArea.setWrapText(true);
 		textArea.setText(getStackTrace(e));
 
 		dialogPaneContent.getChildren().addAll(label, textArea);
@@ -99,6 +103,21 @@ public class NotificationUtility {
 		// Set content for Dialog Pane
 		alert.getDialogPane().setContent(dialogPaneContent);
 		alert.showAndWait();
+	}
+	
+	/**
+	 * Function to show confirmation dialog
+	 * 
+	 * @param message
+	 * @param header
+	 * @return
+	 */
+	public static boolean showConfirm(String message, String header) {
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Confirm");
+		alert.setHeaderText(message);
+		Optional<ButtonType> answer = alert.showAndWait();
+		return answer.get() == ButtonType.OK ? true : false;
 	}
 
 	private static String getStackTrace(Exception e) {

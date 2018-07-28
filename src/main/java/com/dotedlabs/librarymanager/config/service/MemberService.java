@@ -42,4 +42,13 @@ public class MemberService {
 	public Member findById(UUID memberId) {
 		return memberRepository.findOne(memberId);
 	}
+	
+	/**
+	 * Remove a memeber
+	 * 
+	 * @param bookId
+	 */
+	public void delete(UUID memberId) {
+		memberRepository.delete(memberId);
+	}
 }

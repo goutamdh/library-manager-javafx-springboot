@@ -9,9 +9,11 @@ import org.springframework.stereotype.Component;
 
 import com.dotedlabs.librarymanager.config.entity.Member;
 import com.dotedlabs.librarymanager.config.service.MemberService;
+import com.dotedlabs.librarymanager.utils.NotificationUtility;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
@@ -63,7 +65,29 @@ public class ListMembersController implements Initializable {
 		for (Member member : memberService.findAll()) {
 			memberList.add(member);
 		}
-		tableList.getItems().setAll(memberList);
+		tableList.setItems(memberList);
+	}
+	
+	
+	/**
+	 * Remove a member
+	 * 
+	 * @param event
+	 */
+	@FXML
+	void handleDelete(ActionEvent event) {
+		Member selectedMember = tableList.getSelectionModel().getSelectedItem();
+		int selectedIndex = tableList.getSelectionModel().getSelectedIndex();
+		if (null == selectedMember) {
+			NotificationUtility.error("No member selected", "Error in delete");
+		} else {
+			boolean delete = NotificationUtility
+					.showConfirm("Are you sure you want to delete " + selectedMember.getName() + "?", "Confirm delete");
+			if (delete) {
+				memberList.remove(selectedIndex);
+				memberService.delete(selectedMember.getId());
+			}
+		}
 	}
 
 }

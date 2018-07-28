@@ -42,4 +42,13 @@ public class BookService {
 	public Book findById(UUID bookId) {
 		return bookRepository.findOne(bookId);
 	}
+	
+	/**
+	 * Remove a book
+	 * 
+	 * @param bookId
+	 */
+	public void delete(UUID bookId) {
+		bookRepository.delete(bookId);
+	}
 }

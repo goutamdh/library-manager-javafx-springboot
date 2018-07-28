@@ -10,9 +10,11 @@ import org.springframework.stereotype.Component;
 import com.dotedlabs.librarymanager.config.StageManager;
 import com.dotedlabs.librarymanager.config.entity.Book;
 import com.dotedlabs.librarymanager.config.service.BookService;
+import com.dotedlabs.librarymanager.utils.NotificationUtility;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
@@ -72,7 +74,24 @@ public class ListBooksController implements Initializable {
 		for (Book book : bookService.findAll()) {
 			bookList.add(book);
 		}
-		tableList.getItems().setAll(bookList);
+		tableList.setItems(bookList);
+	}
+
+	@FXML
+	void handleDelete(ActionEvent event) {
+		Book selectedBook = tableList.getSelectionModel().getSelectedItem();
+		int selectedIndex = tableList.getSelectionModel().getSelectedIndex();
+		if (null == selectedBook) {
+			NotificationUtility.error("No book selected", "Error in delete");
+		} else {
+			boolean delete = NotificationUtility
+					.showConfirm("Are you sure you want to delete " + selectedBook.getTitle() + "?", "Confirm delete");
+			if (delete) {
+				bookList.remove(selectedIndex);
+				bookService.delete(selectedBook.getId());
+			}
+		}
+
 	}
 
 }

@@ -39,6 +39,6 @@ public class Member {
 	private String email;
 	
 	@OneToOne(mappedBy = "member", cascade = CascadeType.ALL, 
-            fetch = FetchType.LAZY, optional = false)
+            fetch = FetchType.LAZY)
 	private BookIssue bookIssue;
 }
