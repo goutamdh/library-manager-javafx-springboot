@@ -6,19 +6,25 @@ import java.util.ResourceBundle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import com.dotedlabs.librarymanager.config.entity.Member;
 import com.dotedlabs.librarymanager.config.service.MemberService;
 import com.dotedlabs.librarymanager.utils.NotificationUtility;
+import com.google.gson.Gson;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 
 @Component
@@ -29,6 +35,12 @@ public class ListMembersController implements Initializable {
 	
 	@FXML
     private AnchorPane rootPane;
+	
+	@FXML
+    private Button searchBtn;
+	
+	@FXML
+    private TextField searchMemberField;
 
     @FXML
     private TableView<Member> tableList;
@@ -54,19 +66,53 @@ public class ListMembersController implements Initializable {
 	}
 	
 	private void initCol() {
-		memberList.clear();
+		searchMemberField.clear();
+		searchBtn.setDisable(true);
+		
 		idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
 		nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
 		contactCol.setCellValueFactory(new PropertyValueFactory<>("contact"));
 		emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
 	}
 	
+	/**
+	 * Load data in the table
+	 */
 	private void loadData() {
+		memberList.clear();
+		tableList.setItems(memberList);
 		for (Member member : memberService.findAll()) {
 			memberList.add(member);
 		}
 		tableList.setItems(memberList);
 	}
+	
+	@FXML
+    void onClear(ActionEvent event) {
+		searchMemberField.clear();
+		loadData();
+    }
+
+    @FXML
+    void onSearch(ActionEvent event) {
+    	searchMember();
+    }
+    
+    @FXML
+    void onEnterPressed(KeyEvent event) {
+    	if (event.getCode() == KeyCode.ENTER) {
+			searchMember();
+		}
+    }
+    
+    @FXML
+    void onEnableSearch(KeyEvent event) {
+    	if (!StringUtils.isEmpty(searchMemberField.getText())) {
+			searchBtn.setDisable(false);
+		} else {
+			searchBtn.setDisable(true);
+		}
+    }
 	
 	
 	/**
@@ -90,4 +136,18 @@ public class ListMembersController implements Initializable {
 		}
 	}
 
+	
+	private void searchMember() {
+		System.out.println(searchMemberField.getText());
+		if (!StringUtils.isEmpty(searchMemberField.getText())) {
+			memberList.clear();
+			tableList.setItems(memberList);
+			for (Member member : memberService.findByKeyword(searchMemberField.getText())) {
+				memberList.add(member);
+			}
+			tableList.setItems(memberList);
+		} else {
+			loadData();
+		}
+	}
 }

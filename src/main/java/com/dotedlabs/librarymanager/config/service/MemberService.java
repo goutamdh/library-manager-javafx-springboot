@@ -13,7 +13,7 @@ import com.dotedlabs.librarymanager.config.repository.MemberRepository;
 public class MemberService {
 	@Autowired
 	MemberRepository memberRepository;
-	
+
 	/**
 	 * Add new member
 	 * 
@@ -23,7 +23,7 @@ public class MemberService {
 	public Member addMember(Member member) {
 		return memberRepository.save(member);
 	}
-	
+
 	/**
 	 * Find all members
 	 * 
@@ -32,7 +32,7 @@ public class MemberService {
 	public List<Member> findAll() {
 		return memberRepository.findAll();
 	}
-	
+
 	/**
 	 * Find details of a member
 	 * 
@@ -42,7 +42,17 @@ public class MemberService {
 	public Member findById(UUID memberId) {
 		return memberRepository.findOne(memberId);
 	}
-	
+
+	/**
+	 * Search by keyword
+	 * 
+	 * @param keyword
+	 * @return
+	 */
+	public Iterable<Member> findByKeyword(String keyword) {
+		return memberRepository.findByNameIgnoreCaseContaining(keyword);
+	}
+
 	/**
 	 * Remove a memeber
 	 * 

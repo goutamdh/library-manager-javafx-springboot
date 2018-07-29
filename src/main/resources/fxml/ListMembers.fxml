@@ -17,9 +17,9 @@
          <children>
             <HBox spacing="10.0">
                <children>
-                  <TextField promptText="Search member name" HBox.hgrow="ALWAYS" />
-                  <Button mnemonicParsing="false" text="Search" />
-                  <Button mnemonicParsing="false" text="Clear" />
+                  <TextField fx:id="searchMemberField" onKeyPressed="#onEnterPressed" onKeyReleased="#onEnableSearch" promptText="Search member name" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="searchBtn" mnemonicParsing="false" onAction="#onSearch" text="Search" />
+                  <Button mnemonicParsing="false" onAction="#onClear" text="Clear" />
                </children>
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
